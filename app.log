@@ -1,0 +1,1544 @@
+2025-07-18 11:59:50,525 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:04:23,825 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:04:25,687 - error_handler - ERROR - Error 20250718_120425 in Database Cache: There are multiple elements with the same `key='logout_btn'`. To fix this, please make sure that the `key` argument is unique for each element you create.
+2025-07-18 12:06:36,177 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:06:37,260 - error_handler - ERROR - Error 20250718_120637 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:06:37,288 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:06:52,234 - error_handler - ERROR - Error 20250718_120652 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:06:52,246 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:06:52,553 - error_handler - ERROR - Error 20250718_120652 in NLP Analysis: module 'textstat' has no attribute 'flesch_readability_ease'
+2025-07-18 12:06:52,560 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 148, in analyze_text_cached
+    return perf_optimizer.cached_nlp_analysis(text, text_hash)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 261, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 320, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 55, in cached_nlp_analysis
+    read_score = readability_score(text)
+  File "D:\streamlit\nlp_utils.py", line 51, in readability_score
+    return textstat.flesch_readability_ease(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'textstat' has no attribute 'flesch_readability_ease'. Did you mean: 'flesch_reading_ease'?
+
+2025-07-18 12:09:13,420 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:09:14,529 - error_handler - ERROR - Error 20250718_120914 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:09:14,542 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:09:23,622 - error_handler - ERROR - Error 20250718_120923 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:09:23,636 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:09:23,932 - error_handler - ERROR - Error 20250718_120923 in NLP Analysis: module 'textstat' has no attribute 'flesch_readability_ease'
+2025-07-18 12:09:23,935 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 148, in analyze_text_cached
+    return perf_optimizer.cached_nlp_analysis(text, text_hash)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 261, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 320, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 55, in cached_nlp_analysis
+    read_score = readability_score(text)
+  File "D:\streamlit\nlp_utils.py", line 51, in readability_score
+    return textstat.flesch_readability_ease(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'textstat' has no attribute 'flesch_readability_ease'. Did you mean: 'flesch_reading_ease'?
+
+2025-07-18 12:32:07,719 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:32:08,670 - error_handler - ERROR - Error 20250718_123208 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:32:08,681 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:32:16,793 - error_handler - ERROR - Error 20250718_123216 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:32:16,806 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:32:17,083 - error_handler - ERROR - Error 20250718_123217 in NLP Analysis: module 'textstat' has no attribute 'flesch_readability_ease'
+2025-07-18 12:32:17,086 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 148, in analyze_text_cached
+    return perf_optimizer.cached_nlp_analysis(text, text_hash)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 261, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 320, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 55, in cached_nlp_analysis
+    read_score = readability_score(text)
+  File "D:\streamlit\nlp_utils.py", line 51, in readability_score
+    return textstat.flesch_readability_ease(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'textstat' has no attribute 'flesch_readability_ease'. Did you mean: 'flesch_reading_ease'?
+
+2025-07-18 12:36:24,281 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:36:24,874 - error_handler - ERROR - Error 20250718_123624 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:36:24,881 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:36:32,968 - error_handler - ERROR - Error 20250718_123632 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:36:32,975 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 12:36:33,204 - error_handler - ERROR - Error 20250718_123633 in NLP Analysis: module 'textstat' has no attribute 'flesch_readability_ease'
+2025-07-18 12:36:33,206 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 148, in analyze_text_cached
+    return perf_optimizer.cached_nlp_analysis(text, text_hash)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 261, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 320, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 55, in cached_nlp_analysis
+    read_score = readability_score(text)
+  File "D:\streamlit\nlp_utils.py", line 51, in readability_score
+    return textstat.flesch_readability_ease(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'textstat' has no attribute 'flesch_readability_ease'. Did you mean: 'flesch_reading_ease'?
+
+2025-07-18 12:53:16,718 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 12:53:17,516 - error_handler - ERROR - Error 20250718_125317 in Database Query: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+2025-07-18 12:53:17,532 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 619, in _to_bytes
+    reduce_data = obj.__reduce__()
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\copyreg.py", line 70, in _reduce_ex
+    raise TypeError(f"cannot pickle {cls.__name__!r} object")
+TypeError: cannot pickle 'function' object
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableTypeError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 59, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\performance_optimizer.py", line 153, in get_user_analyses_cached
+    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 219, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 234, in _get_or_create_cached_value
+    value_key = _make_value_key(
+        cache_type=self._info.cache_type,
+    ...<3 lines>...
+        hash_funcs=self._info.hash_funcs,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 458, in _make_value_key
+    raise UnhashableParamError(cache_type, func, arg_name, arg_value, exc)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\cache_utils.py", line 450, in _make_value_key
+    update_hash(
+    ~~~~~~~~~~~^
+        arg_value,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        hash_source=func,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 169, in update_hash
+    ch.update(hasher, val)
+    ~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 624, in _to_bytes
+    self.update(h, item)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 345, in update
+    b = self.to_bytes(obj)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 327, in to_bytes
+    b = b"%s:%s" % (tname, self._to_bytes(obj))
+                           ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\streamlit\runtime\caching\hashing.py", line 621, in _to_bytes
+    raise UnhashableTypeError() from ex
+streamlit.runtime.caching.cache_errors.UnhashableParamError: Cannot hash argument 'supabase_client' (of type `supabase._sync.client.SyncClient`) in 'cached_user_analyses'.
+
+To address this, you can tell Streamlit not to hash this argument by adding a
+leading underscore to the argument's name in the function signature:
+
+```
+@st.cache_data
+def cached_user_analyses(_supabase_client, ...):
+    ...
+```
+            
+
+2025-07-18 13:05:14,929 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 13:05:17,690 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 13:05:45,710 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 14:02:00,186 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 14:02:02,500 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 14:02:15,222 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 14:06:37,906 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 14:06:40,462 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 14:06:51,339 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 14:06:52,939 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses "HTTP/2 400 Bad Request"
+2025-07-18 15:08:46,028 - error_handler - ERROR - Error 20250718_150846 in Authentication: [Errno 11001] getaddrinfo failed
+2025-07-18 15:08:46,073 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_backends\sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 113, in _request
+    response = self._http_client.request(
+        method,
+    ...<3 lines>...
+        json=model_dump(body) if isinstance(body, BaseModel) else body,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 109, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\auth_handler.py", line 85, in login
+    res = self.sb.auth.sign_in_with_password({
+        "email": email,
+        "password": password
+    })
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 271, in sign_in_with_password
+    response = self._request(
+        "POST",
+    ...<12 lines>...
+        xform=parse_auth_response,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 125, in _request
+    raise handle_exception(e)
+gotrue.errors.AuthRetryableError: [Errno 11001] getaddrinfo failed
+
+2025-07-18 15:09:11,927 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 15:09:17,238 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 15:09:17,260 - error_handler - ERROR - Error 20250718_150917 in Authentication: _ssl.c:1011: The handshake operation timed out
+2025-07-18 15:09:17,271 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 156, in _connect
+    stream = stream.start_tls(**kwargs)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_backends\sync.py", line 154, in start_tls
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 113, in _request
+    response = self._http_client.request(
+        method,
+    ...<3 lines>...
+        json=model_dump(body) if isinstance(body, BaseModel) else body,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 109, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\auth_handler.py", line 85, in login
+    res = self.sb.auth.sign_in_with_password({
+        "email": email,
+        "password": password
+    })
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 271, in sign_in_with_password
+    response = self._request(
+        "POST",
+    ...<12 lines>...
+        xform=parse_auth_response,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 125, in _request
+    raise handle_exception(e)
+gotrue.errors.AuthRetryableError: _ssl.c:1011: The handshake operation timed out
+
+2025-07-18 15:09:20,209 - error_handler - ERROR - Error 20250718_150920 in Authentication: _ssl.c:1011: The handshake operation timed out
+2025-07-18 15:09:20,219 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 156, in _connect
+    stream = stream.start_tls(**kwargs)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_backends\sync.py", line 154, in start_tls
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 113, in _request
+    response = self._http_client.request(
+        method,
+    ...<3 lines>...
+        json=model_dump(body) if isinstance(body, BaseModel) else body,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 109, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\auth_handler.py", line 85, in login
+    res = self.sb.auth.sign_in_with_password({
+        "email": email,
+        "password": password
+    })
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 271, in sign_in_with_password
+    response = self._request(
+        "POST",
+    ...<12 lines>...
+        xform=parse_auth_response,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 125, in _request
+    raise handle_exception(e)
+gotrue.errors.AuthRetryableError: _ssl.c:1011: The handshake operation timed out
+
+2025-07-18 15:09:23,791 - error_handler - ERROR - Error 20250718_150923 in Authentication: _ssl.c:1011: The handshake operation timed out
+2025-07-18 15:09:23,802 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 156, in _connect
+    stream = stream.start_tls(**kwargs)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_backends\sync.py", line 154, in start_tls
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 113, in _request
+    response = self._http_client.request(
+        method,
+    ...<3 lines>...
+        json=model_dump(body) if isinstance(body, BaseModel) else body,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 109, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\auth_handler.py", line 85, in login
+    res = self.sb.auth.sign_in_with_password({
+        "email": email,
+        "password": password
+    })
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 271, in sign_in_with_password
+    response = self._request(
+        "POST",
+    ...<12 lines>...
+        xform=parse_auth_response,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 125, in _request
+    raise handle_exception(e)
+gotrue.errors.AuthRetryableError: _ssl.c:1011: The handshake operation timed out
+
+2025-07-18 15:09:30,238 - error_handler - ERROR - Error 20250718_150930 in Authentication: _ssl.c:1011: The handshake operation timed out
+2025-07-18 15:09:30,245 - error_handler - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_sync\connection.py", line 156, in _connect
+    stream = stream.start_tls(**kwargs)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_backends\sync.py", line 154, in start_tls
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 113, in _request
+    response = self._http_client.request(
+        method,
+    ...<3 lines>...
+        json=model_dump(body) if isinstance(body, BaseModel) else body,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectTimeout: _ssl.c:1011: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\streamlit\error_handler.py", line 109, in wrapper
+    return func(*args, **kwargs)
+  File "D:\streamlit\auth_handler.py", line 85, in login
+    res = self.sb.auth.sign_in_with_password({
+        "email": email,
+        "password": password
+    })
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 271, in sign_in_with_password
+    response = self._request(
+        "POST",
+    ...<12 lines>...
+        xform=parse_auth_response,
+    )
+  File "C:\Users\Aryan Maurya\AppData\Local\Programs\Python\Python313\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 125, in _request
+    raise handle_exception(e)
+gotrue.errors.AuthRetryableError: _ssl.c:1011: The handshake operation timed out
+
+2025-07-18 15:09:35,583 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 15:09:47,564 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 15:10:04,364 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 15:10:06,407 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses "HTTP/2 400 Bad Request"
+2025-07-18 15:26:20,057 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 15:26:23,651 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 15:27:03,776 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
+2025-07-18 15:27:04,337 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses "HTTP/2 400 Bad Request"
+2025-07-18 16:09:52,445 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=refresh_token "HTTP/2 200 OK"
+2025-07-18 16:09:52,649 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=refresh_token "HTTP/2 200 OK"
+2025-07-18 16:09:57,883 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=refresh_token "HTTP/2 200 OK"
+2025-07-18 16:09:58,745 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=refresh_token "HTTP/2 200 OK"
+2025-07-18 16:26:10,306 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=refresh_token "HTTP/2 200 OK"
+2025-07-18 16:26:10,492 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=refresh_token "HTTP/2 200 OK"
+2025-07-18 18:34:45,215 - httpx - INFO - HTTP Request: POST https://njbvzqfjilxruihmeyyd.supabase.co/auth/v1/token?grant_type=password "HTTP/2 200 OK"
+2025-07-18 18:34:47,629 - httpx - INFO - HTTP Request: GET https://njbvzqfjilxruihmeyyd.supabase.co/rest/v1/analyses?select=%2A&user_id=eq.849892d4-7104-44ed-b000-2109b6b17603&order=date.desc&limit=10 "HTTP/2 200 OK"
