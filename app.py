@@ -9,9 +9,10 @@ from file_validator import validate_file_upload
 from auth_handler import AuthHandler
 from figma_ui import (
     render_figma_sidebar, render_figma_main_content, render_figma_analysis_results,
-    render_figma_loading, render_figma_success, render_figma_login_form, 
-    render_figma_signup_form
+    render_figma_loading, render_figma_success
 )
+from login_form import render_figma_login_form
+from signup_form import render_figma_signup_form
 from database_service import DatabaseService
 from advanced_analytics import advanced_analyzer
 from supabase import create_client, Client
@@ -75,15 +76,32 @@ analyses = db_service.get_user_analyses(user_id) if user_id else []
 # --- Render Sidebar ---
 render_figma_sidebar(current_user, analyses)
 
-# --- Handle Theme Toggle ---
-if st.button("Toggle Theme", key="theme_toggle_btn", help="Switch between light and dark theme"):
+# --- Handle Theme Toggle and Logout ---
+# Create a container for the component value
+if 'component_value' not in st.session_state:
+    st.session_state.component_value = None
+
+# Check if the component value has been set
+if st.session_state.component_value == 'toggle_theme':
+    # Toggle theme
     st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
+    # Reset component value
+    st.session_state.component_value = None
+    st.rerun()
+elif st.session_state.component_value == 'sign_out':
+    # Logout
+    auth.logout()
+    # Reset component value
+    st.session_state.component_value = None
     st.rerun()
 
-# --- Handle Logout ---
-if st.button("Logout", key="logout_btn", help="Sign out of your account"):
-    auth.logout()
+# Hidden button to receive component value
+st.markdown('<div style="display: none;">', unsafe_allow_html=True)
+component_value = st.text_input("Component Value", key="component_value_input", label_visibility="collapsed")
+if component_value:
+    st.session_state.component_value = component_value
     st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- File Upload Section ---
 uploaded_file = st.file_uploader("", type=["pdf", "pptx", "docx", "txt"], label_visibility="collapsed")
