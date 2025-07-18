@@ -7,8 +7,8 @@ from text_extractor import extract_text
 from nlp_utils import analyze_sections, readability_score, sentiment_scores, extract_keywords
 from file_validator import validate_file_upload
 from auth_handler import AuthHandler
-from figma_ui import (
-    render_figma_sidebar, render_figma_main_content, render_figma_analysis_results,
+from figma_ui_fixed import (
+    render_figma_main_content, render_figma_analysis_results,
     render_figma_loading, render_figma_success
 )
 from login_form import render_figma_login_form
@@ -74,34 +74,12 @@ user_id = current_user.id if current_user else None
 analyses = db_service.get_user_analyses(user_id) if user_id else []
 
 # --- Render Sidebar ---
+# Import and render sidebar directly here to avoid import errors
+from sidebar import render_figma_sidebar
 render_figma_sidebar(current_user, analyses)
 
-# --- Handle Theme Toggle and Logout ---
-# Create a container for the component value
-if 'component_value' not in st.session_state:
-    st.session_state.component_value = None
-
-# Check if the component value has been set
-if st.session_state.component_value == 'toggle_theme':
-    # Toggle theme
-    st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
-    # Reset component value
-    st.session_state.component_value = None
-    st.rerun()
-elif st.session_state.component_value == 'sign_out':
-    # Logout
-    auth.logout()
-    # Reset component value
-    st.session_state.component_value = None
-    st.rerun()
-
-# Hidden button to receive component value
-st.markdown('<div style="display: none;">', unsafe_allow_html=True)
-component_value = st.text_input("Component Value", key="component_value_input", label_visibility="collapsed")
-if component_value:
-    st.session_state.component_value = component_value
-    st.rerun()
-st.markdown('</div>', unsafe_allow_html=True)
+# --- Handle Logout ---
+# This is now handled directly in the sidebar.py file
 
 # --- File Upload Section ---
 uploaded_file = st.file_uploader("", type=["pdf", "pptx", "docx", "txt"], label_visibility="collapsed")

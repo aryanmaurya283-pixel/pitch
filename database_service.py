@@ -12,26 +12,47 @@ class DatabaseService:
     
     @handle_database_errors
     def save_analysis(self, user_id: str, analysis_data: Dict[str, Any]) -> bool:
-        """Save pitch analysis to database."""
+        """Save pitch analysis to database with improved error handling."""
+        if not user_id:
+            st.warning("Analysis completed but couldn't save to history: User not logged in.")
+            return False
+            
         try:
-            result = self.sb.table('analyses').insert({
+            # Convert complex data types to JSON-compatible strings
+            import json
+            
+            # Format the date properly
+            current_date = datetime.now()
+            formatted_date = current_date.strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Prepare data for insertion
+            data_to_insert = {
                 'user_id': user_id,
                 'filename': analysis_data.get('filename', ''),
-                'date': datetime.now().isoformat(),
+                'date': formatted_date,
                 'summary': analysis_data.get('summary', ''),
                 'score': analysis_data.get('score', 0),
                 'readability': analysis_data.get('readability', 0),
-                'sentiment': str(analysis_data.get('sentiment', {})),
-                'strengths': str(analysis_data.get('strengths', [])),
-                'weaknesses': str(analysis_data.get('weaknesses', [])),
-                'tips': str(analysis_data.get('tips', [])),
-                'keywords': str(analysis_data.get('keywords', [])),
-                'section_scores': str(analysis_data.get('section_scores', {})),
-                'advanced_results': str(analysis_data.get('advanced_results', {}))
-            }).execute()
-            return True
+                'sentiment': json.dumps(analysis_data.get('sentiment', {})),
+                'strengths': json.dumps(analysis_data.get('strengths', [])),
+                'weaknesses': json.dumps(analysis_data.get('weaknesses', [])),
+                'tips': json.dumps(analysis_data.get('tips', [])),
+                'keywords': json.dumps(analysis_data.get('keywords', [])),
+                'section_scores': json.dumps(analysis_data.get('section_scores', {})),
+                'advanced_results': json.dumps(analysis_data.get('advanced_results', {}))
+            }
+            
+            # Insert data into Supabase
+            result = self.sb.table('analyses').insert(data_to_insert).execute()
+            
+            if result.data:
+                return True
+            else:
+                st.warning("Analysis completed but couldn't save to history: No data returned.")
+                return False
+                
         except Exception as e:
-            st.warning("Analysis completed but couldn't save to history.")
+            st.warning(f"Analysis completed but couldn't save to history: {str(e)}")
             return False
     
     @handle_database_errors

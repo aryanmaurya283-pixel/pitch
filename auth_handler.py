@@ -53,30 +53,35 @@ class AuthHandler:
     def _store_session_in_browser(self, user):
         """Store session info in browser localStorage for persistence."""
         try:
-            import json
-            session_data = {
-                'user_id': user.id,
-                'email': user.email,
-                'user_metadata': user.user_metadata,
-                'expires': (datetime.now() + timedelta(hours=24)).isoformat()
-            }
+            # Instead of trying to use localStorage directly, we'll use Streamlit's session state
+            # and rely on the user to stay on the same browser tab
             
-            # Use JavaScript to store in localStorage
-            st.markdown(f"""
-            <script>
-            localStorage.setItem('pitch_analyzer_session', '{json.dumps(session_data)}');
-            </script>
-            """, unsafe_allow_html=True)
-        except Exception:
+            # Store user info in session state
+            st.session_state.user = user
+            st.session_state.session_expires = datetime.now() + timedelta(hours=24)
+            
+            # For a more robust solution, you could use cookies with streamlit-cookies-manager
+            # but that would require additional setup
+        except Exception as e:
+            print(f"Error storing session: {e}")
             pass  # Ignore storage errors
     
     def _restore_session_from_browser(self) -> bool:
-        """Restore session from browser localStorage."""
+        """Check if we have a valid session in Streamlit's session state."""
         try:
-            # This is a simplified approach - in production you'd want more robust session handling
-            # For now, we'll rely on Supabase's built-in session management
+            # Check if we have a user in session state
+            if 'user' in st.session_state and st.session_state.user:
+                # Check if session is expired
+                if 'session_expires' in st.session_state:
+                    if datetime.now() > st.session_state.session_expires:
+                        # Session expired, clear it
+                        self.logout()
+                        return False
+                return True
+            
             return False
-        except Exception:
+        except Exception as e:
+            print(f"Error restoring session: {e}")
             return False
     
     @handle_auth_errors

@@ -74,14 +74,14 @@ def render_figma_styles(dark_mode=False):
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 32px;
+        margin-bottom: 25px;
     }}
     
     .logo-icon {{
         width: 32px;
         height: 32px;
         background: {primary_blue};
-        border-radius: 8px;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -655,7 +655,7 @@ def render_figma_sidebar(current_user=None, analyses=None):
         
         <!-- Theme Toggle -->
         <button class="theme-toggle" id="theme-toggle-btn">
-            {'🌙 Light Theme' if dark_mode else '☀️ Dark Theme'}
+            {dark_mode and '🌙 Light Theme' or '☀️ Dark Theme'}
         </button>
         
         <!-- Sign Out -->
@@ -667,12 +667,12 @@ def render_figma_sidebar(current_user=None, analyses=None):
     <script>
     document.getElementById('theme-toggle-btn').addEventListener('click', function() {
         // Send message to Streamlit to toggle theme
-        window.parent.postMessage({type: 'streamlit:setComponentValue', value: 'toggle_theme'}, '*');
+        window.parent.postMessage({"type": "streamlit:setComponentValue", "value": "toggle_theme"}, '*');
     });
     
     document.getElementById('sign-out-btn').addEventListener('click', function() {
         // Send message to Streamlit to sign out
-        window.parent.postMessage({type: 'streamlit:setComponentValue', value: 'sign_out'}, '*');
+        window.parent.postMessage({"type": "streamlit:setComponentValue", "value": "sign_out"}, '*');
     });
     </script>
     """, unsafe_allow_html=True)
