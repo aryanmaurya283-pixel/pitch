@@ -58,9 +58,22 @@ class DatabaseService:
     @handle_database_errors
     def get_user_analyses(self, user_id: str, limit: int = 10) -> List[Dict[str, Any]]:
         """Get user's past analyses."""
+        if not user_id:
+            return []
+            
         try:
-            result = self.sb.table('analyses').select('*').eq('user_id', user_id).order('date', desc=True).limit(limit).execute()
-            return result.data if result.data else []
+            # Use the cached version if available
+            from performance_optimizer import get_user_analyses_cached
+            result = get_user_analyses_cached(user_id, self.sb)
+            # Ensure we always return a list, even if the result is None
+            return result if result is not None else []
+        except ImportError:
+            # Fallback to direct query if optimizer not available
+            try:
+                result = self.sb.table('analyses').select('*').eq('user_id', user_id).order('date', desc=True).limit(limit).execute()
+                return result.data if result.data else []
+            except Exception:
+                return []
         except Exception:
             return []
     

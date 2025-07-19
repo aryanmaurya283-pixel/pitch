@@ -31,17 +31,46 @@ def render_figma_sidebar(current_user=None, analyses=None):
         badge_bg = "#38A169"
         badge_text = "#FFFFFF"
     
-    # Apply styles for sidebar
+    # Apply styles for sidebar with responsive design
     st.markdown(f"""
     <style>
-    section.main > div:first-child {{
-        padding-left: 280px;
+    /* Desktop sidebar */
+    @media (min-width: 992px) {{
+        section.main > div:first-child {{
+            padding-left: 280px;
+        }}
+        
+        [data-testid="stSidebar"] {{
+            width: 280px;
+            background-color: {bg_color};
+            border-right: 1px solid {border_color};
+        }}
     }}
     
-    [data-testid="stSidebar"] {{
-        width: 280px;
-        background-color: {bg_color};
-        border-right: 1px solid {border_color};
+    /* Tablet sidebar */
+    @media (min-width: 768px) and (max-width: 991px) {{
+        section.main > div:first-child {{
+            padding-left: 240px;
+        }}
+        
+        [data-testid="stSidebar"] {{
+            width: 240px;
+            background-color: {bg_color};
+            border-right: 1px solid {border_color};
+        }}
+    }}
+    
+    /* Mobile sidebar - overlay style */
+    @media (max-width: 767px) {{
+        section.main > div:first-child {{
+            padding-left: 0;
+        }}
+        
+        [data-testid="stSidebar"] {{
+            width: 100%;
+            background-color: {bg_color};
+            border-right: none;
+        }}
     }}
     
     [data-testid="stSidebar"] > div:first-child {{
@@ -261,8 +290,21 @@ def render_figma_sidebar(current_user=None, analyses=None):
         </div>
         """, unsafe_allow_html=True)
         
-        # Theme toggle
+        # Theme toggle with improved handling and visibility
+        st.markdown("""
+        <style>
+        /* Ensure theme toggle button is always visible */
+        [data-testid="stButton"] {
+            z-index: 1000 !important;
+            position: relative !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        # Theme toggle button
         theme_text = "🌙 Light Theme" if dark_mode else "☀️ Dark Theme"
-        if st.button(theme_text, key="theme_toggle", use_container_width=True):
-            st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
+        if st.button(theme_text, key="theme_toggle", use_container_width=True, help="Switch between light and dark mode"):
+            # Update the theme state
+            st.session_state.dark_mode = not dark_mode
+            # Force a complete page reload
             st.rerun()

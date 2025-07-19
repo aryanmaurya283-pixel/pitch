@@ -12,33 +12,35 @@ def render_figma_styles(dark_mode=False):
     
     # Theme colors - improved for better contrast and visual appeal
     if dark_mode:
-        # Dark theme - rich dark colors with vibrant accents
-        bg_color = "#0F172A"  # Deep blue-black
-        text_primary = "#F8FAFC"  # Almost white
-        text_secondary = "#CBD5E1"  # Light gray
-        card_bg = "#1E293B"  # Dark blue-gray
-        border_color = "#334155"  # Medium blue-gray
-        sidebar_bg = "#0F172A"  # Deep blue-black
-        main_bg = "#0F172A"  # Deep blue-black
-        label_color = "#E2E8F0"  # Light gray-blue
-        accent_color = "#3B82F6"  # Bright blue
-        gradient_start = "#3B82F6"  # Blue
-        gradient_end = "#8B5CF6"  # Purple
-        shadow_color = "rgba(0, 0, 0, 0.3)"
+        # Dark theme - modern dark colors with vibrant accents
+        bg_color = "#111827"  # Dark slate gray
+        text_primary = "#F9FAFB"  # White
+        text_secondary = "#D1D5DB"  # Light gray
+        card_bg = "#1F2937"  # Dark blue-gray
+        border_color = "#374151"  # Medium gray
+        sidebar_bg = "#111827"  # Dark slate gray
+        main_bg = "#111827"  # Dark slate gray
+        label_color = "#E5E7EB"  # Light gray
+        accent_color = "#4F46E5"  # Indigo
+        gradient_start = "#4F46E5"  # Indigo
+        gradient_end = "#7C3AED"  # Purple
+        shadow_color = "rgba(0, 0, 0, 0.4)"
+        highlight_color = "#6366F1"  # Indigo
     else:
         # Light theme - clean whites with vibrant accents
-        bg_color = "#F8FAFC"  # Very light blue-gray
-        text_primary = "#0F172A"  # Deep blue-black
-        text_secondary = "#475569"  # Gray-blue
+        bg_color = "#F9FAFB"  # Very light gray
+        text_primary = "#111827"  # Very dark gray
+        text_secondary = "#4B5563"  # Gray
         card_bg = "#FFFFFF"  # Pure white
-        border_color = "#E2E8F0"  # Light gray-blue
+        border_color = "#E5E7EB"  # Light gray
         sidebar_bg = "#FFFFFF"  # Pure white
-        main_bg = "#F8FAFC"  # Very light blue-gray
-        label_color = "#334155"  # Medium blue-gray
-        accent_color = "#3B82F6"  # Bright blue
-        gradient_start = "#3B82F6"  # Blue
-        gradient_end = "#8B5CF6"  # Purple
+        main_bg = "#F9FAFB"  # Very light gray
+        label_color = "#374151"  # Dark gray
+        accent_color = "#4F46E5"  # Indigo
+        gradient_start = "#4F46E5"  # Indigo
+        gradient_end = "#7C3AED"  # Purple
         shadow_color = "rgba(0, 0, 0, 0.1)"
+        highlight_color = "#6366F1"  # Indigo
     
     st.markdown(f"""
     <style>
@@ -267,23 +269,27 @@ def render_figma_main_content():
     
     # Set theme-based colors
     if dark_mode:
-        bg_color = "#1A1A1A"
-        text_color = "#FFFFFF"
-        secondary_text = "#A0A0A0"
-        card_bg = "#2A2A2A"
-        border_color = "#3A3A3A"
-        button_bg = "#2D3748"
-        button_text = "#FFFFFF"
-        accent_color = "#4F7EFF"
+        # Dark theme - modern dark colors with vibrant accents
+        bg_color = "#111827"  # Dark slate gray
+        text_color = "#F9FAFB"  # White
+        secondary_text = "#D1D5DB"  # Light gray
+        card_bg = "#1F2937"  # Dark blue-gray
+        border_color = "#374151"  # Medium gray
+        button_bg = "#2D3748"  # Dark blue-gray
+        button_text = "#F9FAFB"  # White
+        accent_color = "#4F46E5"  # Indigo
+        highlight_color = "#6366F1"  # Indigo
     else:
-        bg_color = "#F8F9FA"
-        text_color = "#1A1A1A"
-        secondary_text = "#6B7280"
-        card_bg = "#FFFFFF"
-        border_color = "#E5E7EB"
-        button_bg = "#EDF2F7"
-        button_text = "#2D3748"
-        accent_color = "#3182CE"
+        # Light theme - clean whites with vibrant accents
+        bg_color = "#F9FAFB"  # Very light gray
+        text_color = "#111827"  # Very dark gray
+        secondary_text = "#4B5563"  # Gray
+        card_bg = "#FFFFFF"  # Pure white
+        border_color = "#E5E7EB"  # Light gray
+        button_bg = "#EDF2F7"  # Light blue-gray
+        button_text = "#2D3748"  # Dark gray
+        accent_color = "#4F46E5"  # Indigo
+        highlight_color = "#6366F1"  # 
     
     # Add main content CSS
     st.markdown(f"""
@@ -352,23 +358,32 @@ def render_figma_main_content():
     </style>
     """, unsafe_allow_html=True)
     
-    # Add theme toggle button to the top right
+    # Add theme toggle button directly using Streamlit
     theme_text = "🌙 Light Mode" if dark_mode else "☀️ Dark Mode"
-    st.markdown(f"""
-    <button class="theme-toggle-btn" id="theme-toggle-main" onclick="toggleTheme()">
-        {theme_text}
-    </button>
     
-    <script>
-    function toggleTheme() {{
-        // Toggle the theme state
-        const themeToggleBtn = document.querySelector('[data-testid="stSidebar"] button[kind="secondary"]');
-        if (themeToggleBtn) {{
-            themeToggleBtn.click();
-        }}
-    }}
-    </script>
+    # Create a container for the theme toggle button
+    toggle_container = st.container()
+    
+    # Add CSS to position the button in the top right
+    st.markdown("""
+    <style>
+    .theme-toggle-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    </style>
     """, unsafe_allow_html=True)
+    
+    # Create a column layout to position the button
+    with st.container():
+        col1, col2 = st.columns([9, 1])
+        with col2:
+            if st.button(theme_text, key="main_theme_toggle"):
+                # Toggle the theme directly
+                st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
+                st.rerun()
     
     # Create a container for the main content
     main_container = st.container()
@@ -427,17 +442,27 @@ def render_figma_analysis_results(score, read_score, sentiment, grade, overall_s
     
     # Set theme-based colors
     if dark_mode:
-        bg_color = "#1A1A1A"
-        text_color = "#FFFFFF"
-        secondary_text = "#A0A0A0"
-        card_bg = "#2A2A2A"
-        border_color = "#3A3A3A"
+        # Dark theme - modern dark colors with vibrant accents
+        bg_color = "#111827"  # Dark slate gray
+        text_color = "#F9FAFB"  # White
+        secondary_text = "#D1D5DB"  # Light gray
+        card_bg = "#1F2937"  # Dark blue-gray
+        border_color = "#374151"  # Medium gray
+        gradient_start = "#4F46E5"  # Indigo
+        gradient_end = "#7C3AED"  # Purple
+        shadow_color = "rgba(0, 0, 0, 0.4)"
+        highlight_color = "#6366F1"  # Indigo
     else:
-        bg_color = "#F8F9FA"
-        text_color = "#1A1A1A"
-        secondary_text = "#6B7280"
-        card_bg = "#FFFFFF"
-        border_color = "#E5E7EB"
+        # Light theme - clean whites with vibrant accents
+        bg_color = "#F9FAFB"  # Very light gray
+        text_color = "#111827"  # Very dark gray
+        secondary_text = "#4B5563"  # Gray
+        card_bg = "#FFFFFF"  # Pure white
+        border_color = "#E5E7EB"  # Light gray
+        gradient_start = "#4F46E5"  # Indigo
+        gradient_end = "#7C3AED"  # Purple
+        shadow_color = "rgba(0, 0, 0, 0.1)"
+        highlight_color = "#6366F1"  # Indigo
     
     # Add CSS for analysis results
     st.markdown(f"""
@@ -648,23 +673,32 @@ def render_figma_analysis_results(score, read_score, sentiment, grade, overall_s
     </style>
     """, unsafe_allow_html=True)
     
-    # Add theme toggle button to the top right
+    # Add theme toggle button directly using Streamlit
     theme_text = "🌙 Light Mode" if dark_mode else "☀️ Dark Mode"
-    st.markdown(f"""
-    <button class="theme-toggle-btn" id="theme-toggle-results" onclick="toggleTheme()">
-        {theme_text}
-    </button>
     
-    <script>
-    function toggleTheme() {{
-        // Toggle the theme state
-        const themeToggleBtn = document.querySelector('[data-testid="stSidebar"] button[kind="secondary"]');
-        if (themeToggleBtn) {{
-            themeToggleBtn.click();
-        }}
-    }}
-    </script>
+    # Create a container for the theme toggle button
+    toggle_container = st.container()
+    
+    # Add CSS to position the button in the top right
+    st.markdown("""
+    <style>
+    .theme-toggle-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    </style>
     """, unsafe_allow_html=True)
+    
+    # Create a column layout to position the button
+    with st.container():
+        col1, col2 = st.columns([9, 1])
+        with col2:
+            if st.button(theme_text, key="results_theme_toggle"):
+                # Toggle the theme directly
+                st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
+                st.rerun()
     
     # Title
     st.markdown(f"""

@@ -91,13 +91,22 @@ def handle_database_errors(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            return func(*args, **kwargs)
+            result = func(*args, **kwargs)
+            # Ensure we always return a valid value, not None
+            if func.__name__ == 'get_user_analyses' and result is None:
+                return []
+            return result
         except Exception as e:
             error_handler.handle_error(
                 e, 
                 "Database Operation", 
                 "Database operation failed. Your analysis was completed but may not be saved to history."
             )
+            # Return appropriate default values based on function name
+            if func.__name__ == 'get_user_analyses':
+                return []
+            elif func.__name__ == 'save_analysis':
+                return False
             return None
     return wrapper
 
@@ -114,4 +123,29 @@ def handle_auth_errors(func):
                 "Authentication failed. Please check your credentials and try again."
             )
             return False, "Authentication error occurred."
+    return wrapper
+
+def handle_nlp_errors(func):
+    """Specific decorator for NLP processing operations."""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            error_handler.handle_error(
+                e, 
+                "NLP Analysis", 
+                "Text analysis encountered an issue. Some features may be limited."
+            )
+            # Return default values for NLP analysis
+            return {
+                'score': 5,
+                'strengths': ["Basic structure"],
+                'weaknesses': ["Analysis incomplete"],
+                'tips': ["Try again with a different text format"],
+                'section_scores': {},
+                'read_score': 50,
+                'sentiment': {'compound': 0, 'neg': 0, 'neu': 1, 'pos': 0},
+                'keywords': ["pitch", "analysis"]
+            }
     return wrapper
