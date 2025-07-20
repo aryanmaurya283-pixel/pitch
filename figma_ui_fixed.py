@@ -1,74 +1,76 @@
 import streamlit as st
 from typing import Dict, List, Any
 
-def render_figma_styles(dark_mode=False):
-    """Render styles based on Figma design system with Indigo & Slate palette."""
-    # Indigo & Slate palette with sophisticated, modern, and focused vibe
-    success_green = "#10B981"  # Vibrant green for success messages
-    warning_orange = "#F59E0B"  # Amber for warnings
-    
-    # Theme colors - sophisticated, modern, and focused UI
+def apply_global_styles(dark_mode=False):
+    """
+    Applies global CSS styles to hide Streamlit defaults, set fonts, 
+    and most importantly, fix the main content padding to accommodate the fixed navbar.
+    """
     if dark_mode:
-        # Dark Mode Palette (Futuristic & Luxurious)
-        bg_color = "#0F172A"  # Deep navy slate — stylish, easy on eyes
-        text_primary = "#F1F5F9"  # Very light gray — for high contrast
-        text_secondary = "#CBD5E1"  # Lighter slate gray for better contrast
-        card_bg = "#181F2A"  # Darker card background for more contrast
-        border_color = "#334155"  # Muted navy-gray for subtle dividers
-        sidebar_bg = "#0F172A"  # Deep navy slate for sidebar
-        main_bg = "#0F172A"  # Deep navy slate for main background
-        label_color = "#CBD5E1"  # Light slate gray for labels
-        accent_color = "#6366F1"  # Soft lavender blue — pops beautifully
-        gradient_start = "#6366F1"  # Soft lavender blue
-        gradient_end = "#4F46E5"  # Deeper indigo
-        shadow_color = "rgba(15, 23, 42, 0.5)"  # Subtle shadow
-        highlight_color = "#818CF8"  # Light indigo for highlights
-        error_red = "#F87171"  # Soft coral red — less harsh than pure red
+        bg_color = "#0F172A"
+        text_primary = "#F1F5F9"
+        accent_color = "#6366F1"
+        border_color = "#334155"
     else:
-        # Light Mode Palette (Elegant & Sleek)
-        bg_color = "#F9FAFB"  # Very light gray; relaxing, not pure white
-        text_primary = "#1F2937"  # Dark slate — calm but strong readability
-        text_secondary = "#6B7280"  # Cool gray — for subtle descriptions
-        card_bg = "#FFFFFF"  # Pure white for a clean, layered look
-        border_color = "#E5E7EB"  # Light gray for subtle separation
-        sidebar_bg = "#FFFFFF"  # Pure white for sidebar
-        main_bg = "#F9FAFB"  # Very light gray for main background
-        label_color = "#4B5563"  # Medium gray for labels
-        accent_color = "#4F46E5"  # Premium indigo — for CTAs, links, focus
-        gradient_start = "#4F46E5"  # Premium indigo
-        gradient_end = "#6366F1"  # Soft lavender blue
-        shadow_color = "rgba(0, 0, 0, 0.06)"  # Soft, subtle shadow
-        highlight_color = "#6366F1"  # Soft lavender blue for highlights
-        error_red = "#EF4444"  # Stylish red for warnings/errors
-    
+        bg_color = "#F8FAFC"
+        text_primary = "#1F2937"
+        accent_color = "#4F46E5"
+        border_color = "#E5E7EB"
+
     st.markdown(f"""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    
-    * {{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }}
-    
-    .stApp {{
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        background: {main_bg} !important;
-        color: {text_primary} !important;
-        line-height: 1.6 !important;
-        -webkit-font-smoothing: antialiased !important;
-    }}
-    
-    .main .block-container {{
-        padding: 0 !important;
-        max-width: none !important;
-    }}
-    
-    /* Hide Streamlit elements */
-    #MainMenu, footer, header, .stDeployButton {{
-        visibility: hidden !important;
-        height: 0 !important;
-    }}
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        
+        /* --- Basic Reset and Font --- */
+        html, body, [class*="st-"] {{
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            color: {text_primary};
+        }}
+
+        /* --- Hide Streamlit's default elements --- */
+        #MainMenu, footer, header, .stDeployButton {{
+            display: none !important;
+            visibility: hidden !important;
+        }}
+
+        /* --- Main App Styling --- */
+        .stApp {{
+            background-color: {bg_color} !important;
+        }}
+
+        /*
+        --- CRITICAL LAYOUT FIX ---
+        This targets the main container that holds the page content and forces a top padding
+        to prevent it from being hidden behind our fixed navbar.
+        
+        This is more robust than targeting '.block-container'.
+        */
+        [data-testid="stAppViewContainer"] > section {{
+            padding-top: 90px !important;
+        }}
+
+        /* --- Custom Logout Button Styling --- */
+        /* We style the custom button directly, not the hidden Streamlit one */
+        .navbar-logout-btn {{
+            background: #EF4444;
+            color: white !important;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }}
+        .navbar-logout-btn:hover {{
+            background-color: #DC2626;
+        }}
+        
+        /* This is the REAL streamlit button that we will hide and trigger with JS */
+        div[data-testid="stVerticalBlock"] > div:has(button[data-testid="baseButton-secondary"]) {{
+            display: none;
+        }}
     
     /* Main Content Area */
     .main-content {{
