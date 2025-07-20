@@ -31,11 +31,26 @@ class ErrorHandler:
         self.logger.error(f"Error {error_id} in {context}: {str(error)}")
         self.logger.error(f"Traceback: {traceback.format_exc()}")
         
-        # Show user-friendly message
+        # Get current theme
+        dark_mode = st.session_state.get('dark_mode', False)
+        
+        # Show user-friendly message with custom styling to ensure visibility in both themes
         if user_message:
-            st.error(f"❌ {user_message}")
+            error_msg = f"❌ {user_message}"
         else:
-            st.error(f"❌ Something went wrong. Error ID: {error_id}")
+            error_msg = f"❌ Something went wrong. Error ID: {error_id}"
+            
+        # Use custom styling for error messages to ensure visibility in both themes
+        st.markdown(f"""
+        <div style="background-color: {'#2C1A1A' if dark_mode else '#FEE2E2'}; 
+                    color: {'#F87171' if dark_mode else '#B91C1C'}; 
+                    padding: 16px; 
+                    border-radius: 8px; 
+                    margin: 16px 0; 
+                    border: 1px solid {'#7F1D1D' if dark_mode else '#F87171'};">
+            <strong>{error_msg}</strong>
+        </div>
+        """, unsafe_allow_html=True)
         
         # In development, show more details
         if st.secrets.get("debug_mode", False):
@@ -97,11 +112,13 @@ def handle_database_errors(func):
                 return []
             return result
         except Exception as e:
-            error_handler.handle_error(
-                e, 
-                "Database Operation", 
-                "Database operation failed. Your analysis was completed but may not be saved to history."
-            )
+            # Log the error but don't show intrusive error message for database issues
+            error_handler.logger.warning(f"Database operation failed in {func.__name__}: {str(e)}")
+            
+            # Only show a subtle warning for save operations, not for retrieval
+            if func.__name__ == 'save_analysis':
+                st.info("💡 Analysis completed successfully! (History may not be saved)")
+            
             # Return appropriate default values based on function name
             if func.__name__ == 'get_user_analyses':
                 return []

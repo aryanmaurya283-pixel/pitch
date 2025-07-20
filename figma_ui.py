@@ -665,15 +665,15 @@ def render_figma_sidebar(current_user=None, analyses=None):
     </div>
     
     <script>
-    document.getElementById('theme-toggle-btn').addEventListener('click', function() {
+    document.getElementById('theme-toggle-btn').addEventListener('click', function() {{
         // Send message to Streamlit to toggle theme
         window.parent.postMessage({{"type": "streamlit:setComponentValue", "value": "toggle_theme"}}, '*');
-    });
+    }});
     
-    document.getElementById('sign-out-btn').addEventListener('click', function() {
+    document.getElementById('sign-out-btn').addEventListener('click', function() {{
         // Send message to Streamlit to sign out
         window.parent.postMessage({{"type": "streamlit:setComponentValue", "value": "sign_out"}}, '*');
-    });
+    }});
     </script>
     """, unsafe_allow_html=True)
 

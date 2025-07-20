@@ -31,7 +31,7 @@ class PerformanceOptimizer:
         }
     
     @st.cache_data(ttl=300)  # Cache for 5 minutes
-    def cached_user_analyses(self, user_id: str, _supabase_client: Client):
+    def cached_user_analyses(_self, user_id: str, *, _supabase_client: Client):
         """Cache user analyses with proper handling of unhashable types."""
         if not user_id:
             return []
@@ -78,4 +78,5 @@ def analyze_text_cached(text: str):
 @handle_database_errors
 def get_user_analyses_cached(user_id: str, supabase_client: Client):
     """Get user analyses with caching."""
-    return perf_optimizer.cached_user_analyses(user_id, supabase_client)
+    # Add underscore to make the parameter unhashable
+    return perf_optimizer.cached_user_analyses(user_id, _supabase_client=supabase_client)

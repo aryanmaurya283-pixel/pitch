@@ -5,8 +5,18 @@ import hashlib
 import secrets
 from error_handler import handle_auth_errors, error_handler
 
+def clear_sensitive_session_state():
+    """Clear all sensitive session state keys except UI/theme preferences."""
+    sensitive_keys = [
+        'user', 'session_token', 'session_expires', 'access_token', 'refresh_token', 'authenticated'
+    ]
+    for key in sensitive_keys:
+        if key in st.session_state:
+            del st.session_state[key]
+
 class AuthHandler:
     def __init__(self, supabase_client: Client):
+        """Initialize AuthHandler with a Supabase client."""
         self.sb = supabase_client
         
     def _generate_session_token(self) -> str:
@@ -169,21 +179,8 @@ class AuthHandler:
         except Exception as e:
             print(f"Logout error: {e}")
             pass  # Continue even if server logout fails
+        clear_sensitive_session_state()
             
-        # Clear all session data
-        keys_to_clear = [
-            'user', 
-            'session_token', 
-            'session_expires', 
-            'access_token', 
-            'refresh_token', 
-            'authenticated'
-        ]
-        
-        for key in keys_to_clear:
-            if key in st.session_state:
-                del st.session_state[key]
-    
     def get_current_user(self):
         """Get current authenticated user."""
         if self.validate_session():

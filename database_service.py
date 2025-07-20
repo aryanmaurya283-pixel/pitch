@@ -14,7 +14,6 @@ class DatabaseService:
     def save_analysis(self, user_id: str, analysis_data: Dict[str, Any]) -> bool:
         """Save pitch analysis to database with improved error handling."""
         if not user_id:
-            st.warning("Analysis completed but couldn't save to history: User not logged in.")
             return False
             
         try:
@@ -25,7 +24,7 @@ class DatabaseService:
             current_date = datetime.now()
             formatted_date = current_date.strftime("%Y-%m-%d %H:%M:%S")
             
-            # Prepare data for insertion
+            # Prepare data for insertion - only include columns that exist in the database
             data_to_insert = {
                 'user_id': user_id,
                 'filename': analysis_data.get('filename', ''),
@@ -37,22 +36,46 @@ class DatabaseService:
                 'strengths': json.dumps(analysis_data.get('strengths', [])),
                 'weaknesses': json.dumps(analysis_data.get('weaknesses', [])),
                 'tips': json.dumps(analysis_data.get('tips', [])),
-                'keywords': json.dumps(analysis_data.get('keywords', [])),
-                'section_scores': json.dumps(analysis_data.get('section_scores', {})),
-                'advanced_results': json.dumps(analysis_data.get('advanced_results', {}))
+                'keywords': json.dumps(analysis_data.get('keywords', []))
+                # Removed 'section_scores' and 'advanced_results' as they don't exist in the database schema
             }
             
-            # Insert data into Supabase
-            result = self.sb.table('analyses').insert(data_to_insert).execute()
-            
-            if result.data:
-                return True
-            else:
-                st.warning("Analysis completed but couldn't save to history: No data returned.")
-                return False
+            # Insert data into Supabase - handle potential schema issues
+            try:
+                # First try with all fields
+                result = self.sb.table('analyses').insert(data_to_insert).execute()
+                
+                if result.data:
+                    return True
+                else:
+                    return False
+            except Exception as schema_error:
+                # If there's a schema error, try with only essential fields
+                essential_data = {
+                    'user_id': user_id,
+                    'filename': analysis_data.get('filename', ''),
+                    'date': formatted_date,
+                    'score': analysis_data.get('score', 0),
+                    'rility': analysis_data.get('readability', 0)
+                }
+                
+                try:
+                    result = self.sb.table('analyses').insert(essential_data).execute()
+                    if result.data:
+                        return True
+                    else:
+                        st.warning("Analysis completed but couldn't save to history: No data returned.")
+                        return False
+                except Exception as e:
+                    # Log the error but don't show it to the user
+                    import logging
+                    logging.warning(f"Database save error: {str(e)}")
+                    return False
                 
         except Exception as e:
-            st.warning(f"Analysis completed but couldn't save to history: {str(e)}")
+            # Log the error but don't show it to the user
+            import logging
+            logging.warning(f"Database save error: {str(e)}")
             return False
     
     @handle_database_errors

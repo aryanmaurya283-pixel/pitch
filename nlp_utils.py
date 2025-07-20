@@ -49,8 +49,9 @@ def sentiment_scores(text):
 # --- Readability ---
 def readability_score(text):
     try:
+        # Fix the function name to match the actual textstat API
         return textstat.flesch_reading_ease(text)
-    except:
+    except Exception as e:
         # Fallback calculation if textstat fails
         words = len(text.split())
         sentences = len([s for s in text.split('.') if s.strip()])

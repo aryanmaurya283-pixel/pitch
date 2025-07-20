@@ -33,6 +33,9 @@ st.set_page_config(
 # --- Helper Functions for Enhanced UI ---
 def apply_responsive_styles():
     """Apply responsive design styles to improve mobile experience."""
+    # Get current theme state
+    dark_mode = st.session_state.get('dark_mode', False)
+    
     st.markdown("""
     <style>
     /* Mobile Responsive Design */
@@ -175,9 +178,17 @@ def apply_responsive_styles():
         const currentState = sidebar.getAttribute('aria-expanded');
         sidebar.setAttribute('aria-expanded', currentState === 'true' ? 'false' : 'true');
     }
+    
+    function toggleTheme() {
+        // Find and click the theme toggle button in the sidebar
+        const themeButton = window.parent.document.querySelector('[data-testid="stSidebar"] [key="theme_toggle"]');
+        if (themeButton) {
+            themeButton.click();
+        }
+    }
     </script>
     """, unsafe_allow_html=True)
-
+    
 def render_interactive_dashboard(score, read_score, sentiment, grade, overall_score, strengths, weaknesses, tips, keywords, recommendations):
     """Render an interactive dashboard with tooltips and expandable sections."""
     
@@ -196,6 +207,7 @@ def render_interactive_dashboard(score, read_score, sentiment, grade, overall_sc
     .dashboard-container {{
         background-color: {bg_color};
         color: {text_color};
+        padding-top: 60px; /* Add space for the navigation bar */
     }}
     
     .dashboard-card {{
@@ -383,14 +395,40 @@ if 'dark_mode' not in st.session_state:
 # Apply responsive styles and theme-specific styles
 apply_responsive_styles()
 
-# Add global theme styles
+# Add global theme styles with Indigo & Slate palette
 dark_mode = st.session_state.get('dark_mode', False)
-bg_color = "#111827" if dark_mode else "#F9FAFB"
-text_color = "#F9FAFB" if dark_mode else "#111827"
+# Dark Mode Palette (Futuristic & Luxurious)
+if dark_mode:
+    bg_color = "#0F172A"  # Deep navy slate — stylish, easy on eyes
+    text_color = "#F1F5F9"  # Very light gray — for high contrast
+    text_secondary = "#94A3B8"  # Muted cool gray — subtle and elegant
+    card_bg = "#1E293B"  # Slightly raised, matte container look
+    border_color = "#334155"  # Muted navy-gray for subtle dividers
+    accent_color = "#6366F1"  # Soft lavender blue — pops beautifully
+    button_hover = "#4F46E5"  # Deeper indigo for interaction
+    success_color = "#22C55E"  # Powerful green shade that stands out
+    error_color = "#F87171"  # Soft coral red — less harsh than pure red
+# Light Mode Palette (Elegant & Sleek)
+else:
+    bg_color = "#F9FAFB"  # Very light gray; relaxing, not pure white
+    text_color = "#1F2937"  # Dark slate — calm but strong readability
+    text_secondary = "#6B7280"  # Cool gray — for subtle descriptions
+    card_bg = "#FFFFFF"  # Pure white for a clean, layered look
+    border_color = "#E5E7EB"  # Light gray for subtle separation
+    accent_color = "#4F46E5"  # Premium indigo — for CTAs, links, focus
+    button_hover = "#4338CA"  # Slightly darker indigo for interaction
+    success_color = "#10B981"  # Vibrant green for success messages
+    error_color = "#EF4444"  # Stylish red for warnings/errors
 
 st.markdown(f"""
 <style>
-/* Global theme styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Global theme styles with Indigo & Slate palette */
+* {{
+    font-family: 'Inter', sans-serif;
+}}
+
 .stApp {{
     background-color: {bg_color} !important;
     color: {text_color} !important;
@@ -400,6 +438,164 @@ st.markdown(f"""
 button[kind="secondary"] {{
     z-index: 1000 !important;
     position: relative !important;
+    color: white !important;
+    border: none !important;
+    background-color: {accent_color} !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}}
+
+button[kind="secondary"]:hover {{
+    background-color: {button_hover} !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}}
+
+/* File uploader styling */
+.stFileUploader {{
+    background-color: {card_bg} !important;
+    border: 2px dashed {accent_color} !important;
+    border-radius: 12px !important;
+    padding: 24px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease !important;
+}}
+
+.stFileUploader:hover {{
+    border-color: {button_hover} !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}}
+
+.stFileUploader > div > div > span {{
+    color: {accent_color} !important;
+    font-weight: 600 !important;
+}}
+
+.stFileUploader > div > div > small {{
+    color: {text_secondary} !important;
+}}
+
+/* Error message styling */
+.stAlert {{
+    background-color: {card_bg} !important;
+    color: {error_color} !important;
+    border-left: 4px solid {error_color} !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}}
+
+/* Success message styling */
+.stSuccess {{
+    background-color: {card_bg} !important;
+    color: {success_color} !important;
+    border-left: 4px solid {success_color} !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}}
+
+/* Info message styling */
+.stInfo {{
+    background-color: {card_bg} !important;
+    color: {accent_color} !important;
+    border-left: 4px solid {accent_color} !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}}
+
+/* Warning message styling */
+.stWarning {{
+    background-color: {card_bg} !important;
+    color: {"#F59E0B" if dark_mode else "#B45309"} !important;
+    border-left: 4px solid {"#F59E0B" if dark_mode else "#F59E0B"} !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}}
+
+/* Code block styling */
+.stCodeBlock {{
+    background-color: {card_bg} !important;
+    color: {text_color} !important;
+    border: 1px solid {border_color} !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}}
+
+/* Expander styling */
+.st-emotion-cache-1gulkj5 {{
+    background-color: {card_bg} !important;
+    color: {text_color} !important;
+    border: 1px solid {border_color} !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}}
+
+/* Ensure all text is visible */
+p, h1, h2, h3, h4, h5, h6, span, div {{
+    color: {text_color} !important;
+}}
+
+/* Ensure all alerts are visible */
+.stAlert p {{
+    color: inherit !important;
+}}
+
+/* Make "Drag and drop file here" text more visible */
+.css-1aehpvj, .css-50ug3q, .css-1v0mbdj {{
+    color: {accent_color} !important;
+    font-weight: 600 !important;
+}}
+
+/* Make theme toggle button more visible */
+[data-testid="stSidebar"] [data-testid="stButton"] {{
+    background-color: {accent_color} !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}}
+
+[data-testid="stSidebar"] [data-testid="stButton"]:hover {{
+    background-color: {button_hover} !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}}
+
+/* Add more sophisticated styling */
+.stSelectbox, .stTextInput {{
+    border-radius: 8px !important;
+}}
+
+.stSelectbox > div > div, .stTextInput > div > div > input {{
+    background-color: {card_bg} !important;
+    border: 1px solid {border_color} !important;
+    border-radius: 8px !important;
+    color: {text_color} !important;
+    font-weight: 500 !important;
+}}
+
+/* Add subtle transitions */
+button, .stSelectbox, .stTextInput, .stFileUploader {{
+    transition: all 0.2s ease !important;
+}}
+
+/* Use generous spacing */
+.main .block-container {{
+    padding: 2rem !important;
+}}
+
+/* Add subtle shadows to cards */
+.stExpander {{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -427,6 +623,13 @@ def signup_form():
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
+# --- Check for logout request ---
+params = st.query_params
+if 'logout' in params and params['logout'] == 'true':
+    auth.logout()
+    st.query_params.clear()
+    st.rerun()
+
 # --- Main App Flow ---
 if not auth.require_auth():
     if st.session_state.auth_mode == 'login':
@@ -436,27 +639,51 @@ if not auth.require_auth():
     st.stop()
 
 # --- Get Current User ---
-current_user = auth.get_current_user()
-st.session_state.current_user = current_user
+try:
+    current_user = auth.get_current_user()
+    st.session_state.current_user = current_user
+except Exception as e:
+    st.error(f"Error getting current user: {str(e)}")
+    current_user = None
+    st.session_state.current_user = None
 
 # --- Get User Data ---
-user_id = current_user.id if current_user else None
-analyses = db_service.get_user_analyses(user_id) if user_id else []
+try:
+    user_id = current_user.id if current_user and hasattr(current_user, 'id') else None
+    analyses = db_service.get_user_analyses(user_id) if user_id else []
+except Exception as e:
+    st.error(f"Error getting user data: {str(e)}")
+    user_id = None
+    analyses = []
 
 # Store whether user has analyses (handle None case)
 st.session_state.has_analyses = len(analyses) > 0 if analyses is not None else False
 
 # Welcome tour removed as requested
 
+# --- Render Navigation Bar ---
+# Import and render navbar at the top with error handling
+try:
+    from figma_ui_fixed import render_navigation_bar
+    render_navigation_bar(current_user)
+except Exception as e:
+    st.error(f"Navigation bar error: {str(e)}")
+    # Fallback navigation
+    st.markdown("## PitchPerfect AI")
+
 # --- Render Sidebar ---
 # Import and render sidebar directly here to avoid import errors
-from sidebar import render_figma_sidebar
-# Ensure analyses is never None before passing to sidebar
-analyses_to_render = analyses if analyses is not None else []
-render_figma_sidebar(current_user, analyses_to_render)
+try:
+    from sidebar import render_figma_sidebar
+    # Ensure analyses is never None before passing to sidebar
+    analyses_to_render = analyses if analyses is not None else []
+    render_figma_sidebar(current_user, analyses_to_render)
+except Exception as e:
+    st.error(f"Sidebar error: {str(e)}")
+    # Continue without sidebar
 
 # --- File Upload Section ---
-uploaded_file = st.file_uploader("", type=["pdf", "pptx", "docx", "txt"], label_visibility="collapsed")
+uploaded_file = st.file_uploader("Upload your pitch deck", type=["pdf", "pptx", "docx", "txt"])
 
 # Show sample analysis option for new users
 show_sample_analysis = show_sample_analysis_option()
@@ -472,17 +699,26 @@ if uploaded_file:
     if error_msg and "Warning" in error_msg:
         st.warning(error_msg)
     
-    # File info in EXACT Figma style
+    # File info with theme support
     filetype = os.path.splitext(safe_filename)[1].lower()
     filesize = uploaded_file.size / 1024
     
+    # Get current theme
+    dark_mode = st.session_state.get('dark_mode', False)
+    
+    # Set theme-based colors
+    bg_color = "#1F2937" if dark_mode else "#FFFFFF"
+    text_color = "#F9FAFB" if dark_mode else "#1E293B"
+    text_secondary = "#D1D5DB" if dark_mode else "#64748B"
+    border_color = "#374151" if dark_mode else "#E2E8F0"
+    
     st.markdown(f"""
-    <div style='background: #FFFFFF; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border: 1px solid #E2E8F0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);'>
+    <div style='background: {bg_color}; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border: 1px solid {border_color}; box-shadow: 0 2px 8px rgba(0, 0, 0, {0.2 if dark_mode else 0.04});'>
         <div style='display: flex; align-items: center; gap: 1rem;'>
             <div style='font-size: 2rem; color: #6366F1;'>📄</div>
             <div>
-                <div style='font-weight: 600; color: #1E293B; font-size: 1rem;'>{safe_filename}</div>
-                <div style='color: #64748B; font-size: 0.875rem;'>{filetype.upper()} • {filesize:.1f} KB</div>
+                <div style='font-weight: 600; color: {text_color}; font-size: 1rem;'>{safe_filename}</div>
+                <div style='color: {text_secondary}; font-size: 0.875rem;'>{filetype.upper()} • {filesize:.1f} KB</div>
             </div>
         </div>
     </div>
@@ -530,6 +766,8 @@ if uploaded_file:
         # Clear loading animation
         loading_placeholder.empty()
         
+        # Navigation bar is handled in the main content area
+        
         # Show text preview
         with st.expander("📄 View Extracted Text", expanded=False):
             st.code(text[:2000] + ("..." if len(text) > 2000 else ""), language=None)
@@ -542,20 +780,30 @@ if uploaded_file:
             advanced_results.get('recommendations', [])
         )
         
-        # AI Recommendations - EXACT Figma Style
+        # AI Recommendations with theme support
         recommendations = advanced_results.get('recommendations', [])
         if recommendations:
-            st.markdown("""
-            <div style='background: #FFFFFF; border-radius: 16px; padding: 2rem; margin: 2rem 0; border: 1px solid #E2E8F0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);'>
-                <div style='font-size: 1.5rem; font-weight: 700; color: #1E293B; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;'>
+            # Get current theme
+            dark_mode = st.session_state.get('dark_mode', False)
+            
+            # Set theme-based colors
+            bg_color = "#1F2937" if dark_mode else "#FFFFFF"
+            text_color = "#F9FAFB" if dark_mode else "#1E293B"
+            border_color = "#374151" if dark_mode else "#E2E8F0"
+            card_bg = "#111827" if dark_mode else "#F8FAFC"
+            text_secondary = "#D1D5DB" if dark_mode else "#475569"
+            
+            st.markdown(f"""
+            <div style='background: {bg_color}; border-radius: 16px; padding: 2rem; margin: 2rem 0; border: 1px solid {border_color}; box-shadow: 0 4px 20px rgba(0, 0, 0, {0.2 if dark_mode else 0.08});'>
+                <div style='font-size: 1.5rem; font-weight: 700; color: {text_color}; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;'>
                     🤖 AI Recommendations
                 </div>
             """, unsafe_allow_html=True)
             
             for i, rec in enumerate(recommendations, 1):
                 st.markdown(f"""
-                <div style='background: #F8FAFC; border-left: 4px solid #6366F1; padding: 1rem; margin: 0.75rem 0; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0;'>
-                    <strong style='color: #1E293B;'>{i}.</strong> <span style='color: #475569;'>{rec}</span>
+                <div style='background: {card_bg}; border-left: 4px solid #6366F1; padding: 1rem; margin: 0.75rem 0; border-radius: 0 8px 8px 0; border: 1px solid {border_color};'>
+                    <strong style='color: {text_color};'>{i}.</strong> <span style='color: {text_secondary};'>{rec}</span>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -585,11 +833,22 @@ if uploaded_file:
         analysis_data['summary'] = summary
         
         # Save to database using the database service
-        if db_service.save_analysis(user_id, analysis_data):
-            render_figma_success("Analysis Complete!", "Your pitch deck has been analyzed and saved to your history!")
+        try:
+            if db_service.save_analysis(user_id, analysis_data):
+                render_figma_success("Analysis Complete!", "Your pitch deck has been analyzed and saved to your history!")
+            else:
+                # Show success message even if database save fails
+                render_figma_success("Analysis Complete!", "Your pitch deck has been analyzed successfully!")
+        except Exception:
+            # Show success message even if database save fails
+            render_figma_success("Analysis Complete!", "Your pitch deck has been analyzed successfully!")
         
 elif show_sample_analysis:
     # Show sample analysis for new users
+    # Ensure navbar is visible for sample analysis
+    from figma_ui_fixed import render_navigation_bar
+    render_navigation_bar(current_user)
+    
     st.markdown("### 📊 Sample Analysis")
     st.info("This is a sample analysis to help you understand how PitchPerfect works.")
     
@@ -613,6 +872,7 @@ elif show_sample_analysis:
         sample_overall_score, sample_strengths, sample_weaknesses, 
         sample_tips, sample_keywords, sample_recommendations
     )
+    # Navigation bar is handled in the main content area
 else:
     # Show main content area when no file is uploaded
-    render_figma_main_content()
+    render_figma_main_content(current_user)
