@@ -45,9 +45,10 @@ def render_figma_login_form():
     }}
     
     .main .block-container {{
-        padding: 2rem;
+        padding: 1rem 2rem;
         max-width: 800px;
         margin: 0 auto;
+        padding-top: 2rem !important;
     }}
     
     .stApp {{
@@ -155,11 +156,6 @@ def render_figma_login_form():
         st.markdown(f"<h1 style='color: {title_color}; text-align: center; font-weight: 700; font-size: 32px; margin-bottom: 8px;'>PitchPerfect AI</h1>", unsafe_allow_html=True)
         st.markdown(f"<p style='color: {caption_color}; text-align: center; font-size: 16px; margin-bottom: 30px;'>AI-powered pitch deck analysis</p>", unsafe_allow_html=True)
         
-        # # Auth card container
-        # st.markdown(f"""
-        # <div class="auth-card">
-        # """, unsafe_allow_html=True)
-    
         # Form fields
         st.markdown(f"<h3 style='color: {title_color}; font-weight: 700; font-size: 24px; margin-bottom: 20px;'>Sign In</h3>", unsafe_allow_html=True)
         email = st.text_input("Email Address")
@@ -173,6 +169,8 @@ def render_figma_login_form():
                     with st.spinner("Signing you in..."):
                         success, message = auth_handler.login(email, password)
                         if success:
+                            st.session_state.logged_in = True
+                            st.session_state.user = auth_handler.get_current_user()
                             st.success("Welcome back!")
                             st.rerun()
                         else:
@@ -186,18 +184,3 @@ def render_figma_login_form():
         if st.button("Create New Account", use_container_width=True):
             st.session_state.auth_mode = 'signup'
             st.rerun()
-        
-        # Close auth card container
-        st.markdown("""
-        </div>
-        """, unsafe_allow_html=True)
-            
-        # Theme toggle button
-        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-        col1, col2, col3 = st.columns([3, 2, 3])
-        with col2:
-            current_theme = "🌙 Light Theme" if st.session_state.get('dark_mode', False) else "☀️ Dark Theme"
-            if st.button(current_theme, key="theme_toggle_btn", use_container_width=True):
-                # Toggle theme
-                st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
-                st.rerun()

@@ -192,3 +192,7 @@ class AuthHandler:
         if not self.validate_session():
             return False
         return True
+
+    def is_authenticated(self):
+        """Return True if a user is logged in, else False."""
+        return st.session_state.get('user') is not None

@@ -191,13 +191,3 @@ def render_figma_signup_form():
         st.markdown("""
         </div>
         """, unsafe_allow_html=True)
-            
-        # Theme toggle button
-        st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-        col1, col2, col3 = st.columns([3, 2, 3])
-        with col2:
-            current_theme = "🌙 Light Theme" if st.session_state.get('dark_mode', False) else "☀️ Dark Theme"
-            if st.button(current_theme, key="theme_toggle_btn", use_container_width=True):
-                # Toggle theme
-                st.session_state.dark_mode = not st.session_state.get('dark_mode', False)
-                st.rerun()
