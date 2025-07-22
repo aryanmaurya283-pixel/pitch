@@ -1,5 +1,6 @@
 import streamlit as st
 from typing import Dict, Any
+import requests
 
 # --- 1. CORE STYLING AND LAYOUT CORRECTION ---
 def apply_global_styles(dark_mode=False):
@@ -154,6 +155,7 @@ def render_figma_main_content():
     from text_extractor import extract_text
     from nlp_utils import comprehensive_analysis
     from figma_ui_fixed import render_figma_analysis_results, render_figma_success
+    from datetime import datetime
 
     # Modern, premium, user-friendly color palette
     page_bg = "#F8FAFC"  # Softer off-white
@@ -305,6 +307,21 @@ def render_figma_main_content():
             return
         with st.spinner("Analyzing your pitch deck with AI..."):
             analysis = comprehensive_analysis(text)
+        # --- Save analysis to Supabase ---
+        db_service = st.session_state.db_service
+        user = st.session_state.current_user
+        user_id = user.get('id') if isinstance(user, dict) else getattr(user, 'id', None)
+        if user_id and uploaded_file:
+            try:
+                db_service.save_analysis(user_id, {
+                    "filename": uploaded_file.name,
+                    "analysis_data": analysis,
+                    "date": str(datetime.now())
+                })
+                st.info("Analysis saved to your history.")
+            except Exception as e:
+                st.warning(f"Could not save analysis: {e}")
+        # --- Render results as before ---
         basic = analysis['basic']
         render_figma_analysis_results(
             basic['score'],

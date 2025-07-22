@@ -448,6 +448,18 @@ def main():
     apply_global_styles()
     render_navigation_bar(current_user)
     render_figma_sidebar(current_user)
+
+    # --- Supabase Health Check ---
+    db_service = st.session_state.db_service
+    try:
+        user = st.session_state.current_user
+        user_id = user.get('id') if isinstance(user, dict) else getattr(user, 'id', None) if user else None
+        if user_id:
+            _ = db_service.get_user_analyses(user_id)
+        st.success('✅ Supabase API is working!')
+    except Exception as e:
+        st.error(f'❌ Supabase API error: {e}')
+
     render_figma_main_content()
     # (Add your file upload/analysis/dashboard logic here)
 
