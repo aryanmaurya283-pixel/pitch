@@ -456,9 +456,9 @@ def main():
         user_id = user.get('id') if isinstance(user, dict) else getattr(user, 'id', None) if user else None
         if user_id:
             _ = db_service.get_user_analyses(user_id)
-        st.success('✅ Supabase API is working!')
+        # Supabase connection successful - no need to show message
     except Exception as e:
-        st.error(f'❌ Supabase API error: {e}')
+        st.error(f'❌ Database connection error: {e}')
 
     render_figma_main_content()
     # (Add your file upload/analysis/dashboard logic here)

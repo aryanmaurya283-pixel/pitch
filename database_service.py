@@ -13,14 +13,39 @@ class DatabaseService:
     
     def save_analysis(self, user_id, analysis_data):
         """Save a user's analysis to the 'analyses' table."""
-        data = {
-            "user_id": user_id,
-            "filename": analysis_data.get("filename"),
-            "analysis_data": json.dumps(analysis_data),
-            "date": datetime.now().isoformat()
-        }
-        res = self.sb.table("analyses").insert(data).execute()
-        return res
+        try:
+            # Try with the expected column structure
+            data = {
+                "user_id": user_id,
+                "filename": analysis_data.get("filename", "Unknown"),
+                "analysis_data": json.dumps(analysis_data),
+                "created_at": datetime.now().isoformat()
+            }
+            res = self.sb.table("analyses").insert(data).execute()
+            return res
+        except Exception as e:
+            # If analysis_data column doesn't exist, try with individual columns
+            try:
+                data = {
+                    "user_id": user_id,
+                    "filename": analysis_data.get("filename", "Unknown"),
+                    "score": analysis_data.get("score", 0),
+                    "readability_score": analysis_data.get("readability_score", 0),
+                    "sentiment": analysis_data.get("sentiment", "neutral"),
+                    "grade": analysis_data.get("grade", "N/A"),
+                    "overall_score": analysis_data.get("overall_score", 0),
+                    "strengths": json.dumps(analysis_data.get("strengths", [])),
+                    "weaknesses": json.dumps(analysis_data.get("weaknesses", [])),
+                    "tips": json.dumps(analysis_data.get("tips", [])),
+                    "keywords": json.dumps(analysis_data.get("keywords", [])),
+                    "created_at": datetime.now().isoformat()
+                }
+                res = self.sb.table("analyses").insert(data).execute()
+                return res
+            except Exception as e2:
+                # If both fail, just return False to continue without saving
+                print(f"Database save failed: {e2}")
+                return False
 
     def get_user_analyses(self, user_id):
         """Fetch all analyses for a user from the 'analyses' table."""

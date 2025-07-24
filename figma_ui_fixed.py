@@ -157,15 +157,29 @@ def render_figma_main_content():
     from figma_ui_fixed import render_figma_analysis_results, render_figma_success
     from datetime import datetime
 
-    # Modern, premium, user-friendly color palette
-    page_bg = "#F8FAFC"  # Softer off-white
-    card_bg = "#FFFFFF"
-    border_color = "#E5E7EB"
-    accent_color = "#7B61FF"  # Vibrant blue-purple
-    text_primary = "#232946"  # Deep blue/gray
-    text_secondary = "#6B7280"  # Soft gray
-    upload_bg_hover = "#F3F0FF"  # Very light purple
-    shadow = "none"
+    # Get theme from session state
+    dark_mode = st.session_state.get('dark_mode', False)
+    
+    if dark_mode:
+        page_bg = "#0F172A"
+        card_bg = "#1E293B"
+        border_color = "#334155"
+        accent_color = "#6366F1"
+        text_primary = "#F1F5F9"
+        text_secondary = "#CBD5E1"
+        upload_bg_hover = "#1E293B"
+        shadow = "0 4px 20px rgba(0, 0, 0, 0.3)"
+        gradient_bg = "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)"
+    else:
+        page_bg = "#F8FAFC"
+        card_bg = "#FFFFFF"
+        border_color = "#E5E7EB"
+        accent_color = "#4F46E5"
+        text_primary = "#1F2937"
+        text_secondary = "#6B7280"
+        upload_bg_hover = "#F3F4F6"
+        shadow = "0 4px 20px rgba(0, 0, 0, 0.08)"
+        gradient_bg = "linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)"
 
     st.markdown(f"""
     <style>
@@ -180,12 +194,12 @@ def render_figma_main_content():
             min-height: 60vh;
         }}
         .upload-box {{
-            background-color: {card_bg};
-            border: 2px dashed {border_color};
-            border-radius: 20px;
-            padding: 48px 32px 32px 32px;
+            background: {gradient_bg};
+            border: 2px dashed {accent_color}40;
+            border-radius: 24px;
+            padding: 60px 40px;
             text-align: center;
-            transition: all 0.3s cubic-bezier(.4,2,.6,1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             margin: 0 auto;
             box-shadow: {shadow};
@@ -195,34 +209,54 @@ def render_figma_main_content():
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
         }}
         .upload-box:hover {{
             border-color: {accent_color};
-            background-color: {upload_bg_hover};
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: none;
+            background: {card_bg};
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 32px {accent_color}20;
         }}
         .upload-icon-folder {{
-            font-size: 48px;
+            font-size: 64px;
             color: {accent_color};
-            margin-bottom: 18px;
+            margin-bottom: 24px;
             display: block;
+            filter: drop-shadow(0 4px 8px {accent_color}20);
         }}
         .upload-text-main {{
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 800;
-            color: {accent_color};
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            color: {text_primary};
+            margin-bottom: 12px;
+            letter-spacing: -0.8px;
             display: block;
         }}
         .upload-text-secondary {{
-            font-size: 15px;
+            font-size: 16px;
             color: {text_secondary};
-            margin-top: 2px;
-            margin-bottom: 0;
+            margin-top: 4px;
+            margin-bottom: 24px;
             display: block;
+            line-height: 1.5;
+        }}
+        .upload-cta-button {{
+            background: linear-gradient(135deg, {accent_color} 0%, {accent_color}DD 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px {accent_color}40;
+            margin-top: 8px;
+        }}
+        .upload-cta-button:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px {accent_color}60;
         }}
         /* Streamlit file uploader custom styles */
         .stFileUploader {{
@@ -339,47 +373,146 @@ def render_figma_main_content():
     return uploaded_file
 
 def render_figma_analysis_results(score, read_score, sentiment, grade, overall_score, strengths, weaknesses, tips, keywords, recommendations):
-    """Render analysis results in new design."""
-    # Use only the light theme colors
-    card_bg = "#FFFFFF"
-    border_color = "#E5E7EB"
-    text_primary = "#181C2A"
-    text_secondary = "#232946"
-    section_border = border_color
-    section_bg = card_bg
+    """Render analysis results with improved design and theme support."""
+    # Get theme from session state
+    dark_mode = st.session_state.get('dark_mode', False)
+    
+    if dark_mode:
+        main_bg = "#0F172A"
+        card_bg = "#1E293B"
+        border_color = "#334155"
+        text_primary = "#F1F5F9"
+        text_secondary = "#CBD5E1"
+        accent_color = "#6366F1"
+        success_color = "#10B981"
+        warning_color = "#F59E0B"
+        error_color = "#EF4444"
+        info_color = "#3B82F6"
+    else:
+        main_bg = "#F8FAFC"
+        card_bg = "#FFFFFF"
+        border_color = "#E5E7EB"
+        text_primary = "#1F2937"
+        text_secondary = "#6B7280"
+        accent_color = "#4F46E5"
+        success_color = "#059669"
+        warning_color = "#D97706"
+        error_color = "#DC2626"
+        info_color = "#2563EB"
     st.markdown(f"""
     <style>
     .main-content {{
-        padding-top: 60px;
-        background: #F7F8FA !important;
+        padding-top: 80px;
+        background: {main_bg} !important;
+        min-height: 100vh;
     }}
-    .metric-card {{ background: none; border: none; box-shadow: none; }}
-    .metric-label {{ font-size: 15px; color: #6B7280; font-weight: 600; margin-bottom: 4px; }}
-    .metric-value {{ font-size: 24px; font-weight: 700; color: #6C63FF; }}
-    .analysis-section {{
-        background: {section_bg};
-        border: 1px solid {section_border};
-        border-radius: 12px;
+    .results-header {{
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 32px;
+        background: linear-gradient(135deg, {accent_color}10 0%, {accent_color}05 100%);
+        border-radius: 20px;
+        border: 1px solid {border_color};
+    }}
+    .metric-card {{ 
+        background: {card_bg};
+        border: 1px solid {border_color};
+        border-radius: 16px;
         padding: 24px;
-        margin-bottom: 0;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }}
+    .metric-card:hover {{
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        border-color: {accent_color};
+    }}
+    .metric-label {{ 
+        font-size: 14px; 
+        color: {text_secondary}; 
+        font-weight: 600; 
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }}
+    .metric-value {{ 
+        font-size: 32px; 
+        font-weight: 800; 
+        color: {accent_color};
+        line-height: 1;
+    }}
+    .analysis-section {{
+        background: {card_bg};
+        border: 1px solid {border_color};
+        border-radius: 16px;
+        padding: 28px;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }}
+    .analysis-section:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
     }}
     .analysis-section h3 {{
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 20px;
+        font-weight: 700;
         color: {text_primary};
-        margin-bottom: 16px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid {border_color};
+    }}
+    .figma-tag {{
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 4px;
+        transition: all 0.2s ease;
+    }}
+    .tag-success {{
+        background: {success_color}15;
+        color: {success_color};
+        border: 1px solid {success_color}30;
+    }}
+    .tag-error {{
+        background: {error_color}15;
+        color: {error_color};
+        border: 1px solid {error_color}30;
+    }}
+    .tag-warning {{
+        background: {warning_color}15;
+        color: {warning_color};
+        border: 1px solid {warning_color}30;
+    }}
+    .tag-info {{
+        background: {info_color}15;
+        color: {info_color};
+        border: 1px solid {info_color}30;
+    }}
+    .figma-tag:hover {{
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }}
     </style>
     """, unsafe_allow_html=True)
     st.markdown(f"""
     <div class="main-content">
-        <div style="margin-bottom: 32px;">
-            <h2 style="font-size: 24px; font-weight: 700; color: {text_primary}; margin-bottom: 24px;">
-                📊 Analysis Results
-            </h2>
+        <div class="results-header">
+            <div style="font-size: 48px; margin-bottom: 16px;">🎯</div>
+            <h1 style="font-size: 32px; font-weight: 800; color: {text_primary}; margin-bottom: 12px; letter-spacing: -0.5px;">
+                Analysis Complete!
+            </h1>
+            <p style="font-size: 18px; color: {text_secondary}; margin: 0; line-height: 1.5;">
+                Here's your comprehensive pitch deck analysis with actionable insights
+            </p>
+        </div>
+        <div style="margin-bottom: 40px;">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 32px;">
                 <div class="metric-card">
                     <div class="metric-label">Section Coverage</div>
