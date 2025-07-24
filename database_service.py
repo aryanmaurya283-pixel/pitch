@@ -13,39 +13,51 @@ class DatabaseService:
     
     def save_analysis(self, user_id, analysis_data):
         """Save a user's analysis to the 'analyses' table."""
-        try:
-            # Try with the expected column structure
-            data = {
+        # Try multiple approaches to save the analysis
+        approaches = [
+            # Approach 1: Simple structure with just essential fields
+            {
+                "user_id": user_id,
+                "filename": analysis_data.get("filename", "Unknown"),
+                "score": analysis_data.get("overall_score", 0),
+                "date": datetime.now().isoformat()
+            },
+            # Approach 2: With analysis_data JSON column
+            {
                 "user_id": user_id,
                 "filename": analysis_data.get("filename", "Unknown"),
                 "analysis_data": json.dumps(analysis_data),
                 "created_at": datetime.now().isoformat()
+            },
+            # Approach 3: Individual columns
+            {
+                "user_id": user_id,
+                "filename": analysis_data.get("filename", "Unknown"),
+                "score": analysis_data.get("score", 0),
+                "readability_score": analysis_data.get("readability_score", 0),
+                "sentiment": analysis_data.get("sentiment", "neutral"),
+                "grade": analysis_data.get("grade", "N/A"),
+                "overall_score": analysis_data.get("overall_score", 0),
+                "strengths": json.dumps(analysis_data.get("strengths", [])),
+                "weaknesses": json.dumps(analysis_data.get("weaknesses", [])),
+                "tips": json.dumps(analysis_data.get("tips", [])),
+                "keywords": json.dumps(analysis_data.get("keywords", [])),
+                "created_at": datetime.now().isoformat()
             }
-            res = self.sb.table("analyses").insert(data).execute()
-            return res
-        except Exception as e:
-            # If analysis_data column doesn't exist, try with individual columns
+        ]
+        
+        for i, data in enumerate(approaches):
             try:
-                data = {
-                    "user_id": user_id,
-                    "filename": analysis_data.get("filename", "Unknown"),
-                    "score": analysis_data.get("score", 0),
-                    "readability_score": analysis_data.get("readability_score", 0),
-                    "sentiment": analysis_data.get("sentiment", "neutral"),
-                    "grade": analysis_data.get("grade", "N/A"),
-                    "overall_score": analysis_data.get("overall_score", 0),
-                    "strengths": json.dumps(analysis_data.get("strengths", [])),
-                    "weaknesses": json.dumps(analysis_data.get("weaknesses", [])),
-                    "tips": json.dumps(analysis_data.get("tips", [])),
-                    "keywords": json.dumps(analysis_data.get("keywords", [])),
-                    "created_at": datetime.now().isoformat()
-                }
                 res = self.sb.table("analyses").insert(data).execute()
-                return res
-            except Exception as e2:
-                # If both fail, just return False to continue without saving
-                print(f"Database save failed: {e2}")
-                return False
+                if res.data and len(res.data) > 0:
+                    print(f"Analysis saved successfully using approach {i+1}")
+                    return True
+            except Exception as e:
+                print(f"Approach {i+1} failed: {e}")
+                continue
+        
+        print("All save approaches failed")
+        return False
 
     def get_user_analyses(self, user_id):
         """Fetch all analyses for a user from the 'analyses' table."""

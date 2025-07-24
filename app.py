@@ -443,22 +443,43 @@ def main():
             st.session_state.auth_handler = st.session_state.auth
             render_figma_signup_form()
         st.stop()
-    current_user = st.session_state.user
+    current_user = st.session_state.get('user')
     st.session_state.current_user = current_user
     apply_global_styles()
     render_navigation_bar(current_user)
-    render_figma_sidebar(current_user)
-
-    # --- Supabase Health Check ---
+    
+    # --- Get user analyses for sidebar ---
     db_service = st.session_state.db_service
-    try:
-        user = st.session_state.current_user
-        user_id = user.get('id') if isinstance(user, dict) else getattr(user, 'id', None) if user else None
-        if user_id:
-            _ = db_service.get_user_analyses(user_id)
-        # Supabase connection successful - no need to show message
-    except Exception as e:
-        st.error(f'❌ Database connection error: {e}')
+    analyses = []
+    
+    # Try to get from session state first (for performance)
+    if 'analyses' in st.session_state and st.session_state.analyses:
+        analyses = st.session_state.analyses
+    
+    # If not in session state or empty, fetch from database
+    if not analyses:
+        try:
+            user = st.session_state.current_user
+            if isinstance(user, dict):
+                user_id = user.get('id') or user.get('user_id')
+            else:
+                user_id = getattr(user, 'id', None) or getattr(user, 'user_id', None) if user else None
+            if user_id:
+                analyses = db_service.get_user_analyses(user_id)
+                st.session_state.analyses = analyses  # Store in session state
+                
+                # Analyses fetched successfully
+            else:
+                # No user authenticated
+                pass
+        except Exception as e:
+            # Database error occurred
+            analyses = []
+    
+    # Real analyses will be shown here when available
+    
+    # Render sidebar with analyses
+    render_figma_sidebar(current_user, analyses)
 
     render_figma_main_content()
     # (Add your file upload/analysis/dashboard logic here)

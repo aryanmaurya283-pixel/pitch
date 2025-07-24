@@ -342,19 +342,50 @@ def render_figma_main_content():
         with st.spinner("Analyzing your pitch deck with AI..."):
             analysis = comprehensive_analysis(text)
         # --- Save analysis to Supabase ---
-        db_service = st.session_state.db_service
-        user = st.session_state.current_user
-        user_id = user.get('id') if isinstance(user, dict) else getattr(user, 'id', None)
-        if user_id and uploaded_file:
-            try:
-                db_service.save_analysis(user_id, {
+        try:
+            db_service = st.session_state.get('db_service')
+            user = st.session_state.get('current_user')
+            
+            # Try multiple ways to get user_id
+            user_id = None
+            if user:
+                if isinstance(user, dict):
+                    user_id = user.get('id') or user.get('user_id')
+                else:
+                    user_id = getattr(user, 'id', None) or getattr(user, 'user_id', None)
+            
+            if db_service and user_id and uploaded_file:
+                # Prepare analysis data with proper structure
+                analysis_data = {
                     "filename": uploaded_file.name,
-                    "analysis_data": analysis,
-                    "date": str(datetime.now())
-                })
-                st.info("Analysis saved to your history.")
-            except Exception as e:
-                st.warning(f"Could not save analysis: {e}")
+                    "score": analysis['basic']['score'],
+                    "readability_score": analysis['basic']['readability'],
+                    "sentiment": analysis['basic']['sentiment'],
+                    "grade": analysis['overall_grade'],
+                    "overall_score": int((analysis['basic']['score']/10)*100),
+                    "strengths": analysis['basic']['strengths'],
+                    "weaknesses": analysis['basic']['weaknesses'],
+                    "tips": analysis['basic']['tips'],
+                    "keywords": analysis['basic']['keywords'],
+                    "recommendations": analysis.get('recommendations', []),
+                    "full_analysis": analysis
+                }
+                
+                result = db_service.save_analysis(user_id, analysis_data)
+                
+                if result:
+                    st.success("✅ Analysis saved to your history!")
+                    # Force refresh analyses in session state
+                    st.session_state.analyses = db_service.get_user_analyses(user_id)
+                    # Trigger a rerun to refresh the sidebar
+                    st.rerun()
+                else:
+                    st.warning("⚠️ Analysis completed but couldn't save to history")
+            else:
+                st.info("ℹ️ Analysis completed (not saved - database/user info unavailable)")
+                
+        except Exception as e:
+            st.warning(f"⚠️ Analysis completed but save failed: {str(e)}")
         # --- Render results as before ---
         basic = analysis['basic']
         render_figma_analysis_results(
